@@ -1,3 +1,4 @@
+# dev
 .vscode/
 bin/
 obj/
@@ -6,3 +7,4 @@ obj/
 include/SDL2/
 lib/libSDL2main.a
 lib/SDL2.dll
+lib/SDL2_image.dll
