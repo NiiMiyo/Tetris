@@ -1,0 +1,8 @@
+.vscode/
+bin/
+obj/
+
+# SDL2
+include/SDL2/
+lib/libSDL2main.a
+lib/SDL2.dll
