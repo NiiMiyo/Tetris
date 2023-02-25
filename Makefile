@@ -1,28 +1,24 @@
 COMPILE_FLAGS = -I include -pedantic -Wall -Wextra
 LINK_FLAGS    = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -L lib
+C_FILES       = main game game_data tetramino
 
-.PHONY: build clean assets compile.src compile.file.% run
+OBJECT_FILES  = $(patsubst %,obj/%.o,${C_FILES})
 
-build: clean compile.src assets
-	gcc obj/main.o obj/game.o obj/game_data.o -o bin/main ${LINK_FLAGS}
+NEW_LINE      = @echo ""
 
-run: build
-	cd bin && ./main
+.PHONY: build run
 
-clean:
-	rm -rf obj/*
-	rm -rf bin/*
-
-assets:
+build: ${OBJECT_FILES}
+	gcc ${OBJECT_FILES} -o bin/main ${LINK_FLAGS}
+	${NEW_LINE}
 	cp assets/* bin/ -r
 	cp "lib/SDL2.dll" bin/
 	cp "lib/SDL2_image.dll" bin/
 
-compile.src: \
-	compile.file.main \
-	compile.file.game_data \
-	compile.file.game ;
+run: build
+	${NEW_LINE}
+	cd bin && ./main
 
-compile.file.%:
-	@echo ""
-	gcc -c "src/$*.c" -o "obj/$*.o" ${COMPILE_FLAGS}
+obj/%.o: src/%.c
+	${NEW_LINE}
+	gcc -c "$<" -o "$@" ${COMPILE_FLAGS}

@@ -27,8 +27,19 @@ struct GameData *init() {
 		printf("error creating window: %s\n", SDL_GetError());
 		return NULL;
 	}
-
 	data->window = window;
+
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+	if (renderer == NULL) {
+		printf("error creating renderer for window: %s\n", SDL_GetError());
+		return NULL;
+	}
+	data->renderer = renderer;
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+	// todo: check if data->grid should me manually initialized (probably not)
+	// data->grid = calloc(GRID_WIDTH * GRID_HEIGHT, sizeof(SDL_bool));
+
 	return data;
 }
 
