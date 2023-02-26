@@ -8,7 +8,7 @@
  */
 typedef struct Tetramino {
 	/**
-	 * The relative position of the four blocks the compose the tetramino
+	 * The relative position of the four blocks that compose the tetramino
 	 */
 	const SDL_Point blocks[4];
 

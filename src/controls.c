@@ -19,11 +19,15 @@ void move_tetramino(SDL_Event *event, GameData *GAME_DATA) {
 		GAME_DATA->current_tetramino = GAME_DATA->current_tetramino->rotatesInto;
 	}
 
-	// todo: check for block position instead of tetramino position
-	if (GAME_DATA->tetramino_position.x < 0) {
-		GAME_DATA->tetramino_position.x = 0;
-	} else if (GAME_DATA->tetramino_position.x > GRID_WIDTH) {
-		GAME_DATA->tetramino_position.x = GRID_WIDTH;
+	for (size_t i = 0; i < 4; i++) {
+		SDL_Point block = GAME_DATA->current_tetramino->blocks[i];
+		int block_global_x = GAME_DATA->tetramino_position.x + block.x;
+
+		if (block_global_x < 0)
+			GAME_DATA->tetramino_position.x -= block_global_x;
+
+		else if (block_global_x >= GRID_WIDTH)
+			GAME_DATA->tetramino_position.x -= (block_global_x - GRID_WIDTH) + 1;
 	}
 
 	// todo: drop

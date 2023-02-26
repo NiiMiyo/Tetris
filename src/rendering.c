@@ -4,13 +4,32 @@
 #include "tetramino.h"
 #include "constants.h"
 
+const SDL_Rect LEFT_WALL = {
+	.x = GRID_START_X - (GRID_GAP * 2),
+	.y = GRID_START_Y - GRID_GAP,
+	.h = GRID_HEIGHT_PIXELS,
+	.w = GRID_WALL_WIDTH
+};
+const SDL_Rect RIGHT_WALL = {
+	.x = GRID_START_X + GRID_WIDTH_PIXELS,
+	.y = GRID_START_Y - GRID_GAP,
+	.h = GRID_HEIGHT_PIXELS,
+	.w = GRID_WALL_WIDTH
+};
+const SDL_Rect FLOOR = {
+	.x = GRID_START_X - (GRID_GAP * 2),
+	.y = GRID_START_Y - GRID_GAP + GRID_HEIGHT_PIXELS,
+	.w = GRID_WIDTH_PIXELS + (GRID_GAP * 2) + GRID_WALL_WIDTH,
+	.h = GRID_WALL_WIDTH
+};
+
 /**
  * Converts a point in the grid to a point in the window
  */
 SDL_Point grid_to_screen(SDL_Point grid_position) {
 	return (SDL_Point){
-		grid_position.x * BLOCK_SIZE + (grid_position.x * GRID_GAP) + GRID_START,
-		grid_position.y * BLOCK_SIZE + (grid_position.y * GRID_GAP)
+		grid_position.x * BLOCK_SIZE + (grid_position.x * GRID_GAP) + GRID_START_X,
+		grid_position.y * BLOCK_SIZE + (grid_position.y * GRID_GAP) + GRID_START_Y
 	};
 }
 
@@ -50,6 +69,7 @@ void draw_tetramino(
 	SDL_Point position,
 	SDL_Renderer *renderer
 ) {
+	// todo: each tetramino has different color
 	for (char i = 0; i < 4; i++) {
 		// todo: check errors
 		SDL_Point p = block_global_position(tetramino, i, position);
@@ -65,7 +85,10 @@ void draw_grid(GameData *GAME_DATA) {
 			}
 		}
 	}
-	// todo: draw grid walls and floor
+
+	SDL_RenderDrawRect(GAME_DATA->renderer, &LEFT_WALL);
+	SDL_RenderDrawRect(GAME_DATA->renderer, &RIGHT_WALL);
+	SDL_RenderDrawRect(GAME_DATA->renderer, &FLOOR);
 }
 
 void clean_window(GameData *GAME_DATA) {
