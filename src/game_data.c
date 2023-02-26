@@ -1,11 +1,10 @@
 #include <stdio.h>
-
 #include "SDL2/SDL.h"
 #include "constants.h"
 #include "game_data.h"
 
-struct GameData *init() {
-	struct GameData *data = calloc(1, sizeof(struct GameData));
+GameData *init() {
+	GameData *data = calloc(1, sizeof(GameData));
 	if (data == NULL) {
 		printf("error allocating memory for game data\n");
 		return NULL;
@@ -13,6 +12,7 @@ struct GameData *init() {
 
 	if (SDL_Init(SDL_INIT_EVENTS) != 0) {
 		printf("error initializing SDL: %s\n", SDL_GetError());
+		free(data);
 		return NULL;
 	}
 
@@ -25,6 +25,7 @@ struct GameData *init() {
 
 	if (window == NULL) {
 		printf("error creating window: %s\n", SDL_GetError());
+		free(data);
 		return NULL;
 	}
 	data->window = window;
@@ -32,6 +33,7 @@ struct GameData *init() {
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 	if (renderer == NULL) {
 		printf("error creating renderer for window: %s\n", SDL_GetError());
+		free(data);
 		return NULL;
 	}
 	data->renderer = renderer;
@@ -43,7 +45,8 @@ struct GameData *init() {
 	return data;
 }
 
-void close(struct GameData *GAME_DATA) {
+void close(GameData *GAME_DATA) {
+	SDL_DestroyRenderer(GAME_DATA->renderer);
 	SDL_DestroyWindow(GAME_DATA->window);
 	SDL_Quit();
 

@@ -1,8 +1,6 @@
 #ifndef NII_TETRIS_CONSTANTS
 #define NII_TETRIS_CONSTANTS
 
-#include "SDL2/SDL.h"
-
 #define WINDOW_TITLE  "Tetris by Nii Miyo"
 
 #define WINDOW_WIDTH  640
@@ -13,5 +11,7 @@
 
 #define BLOCK_SIZE    16
 #define GRID_GAP      2
+
+#define GRID_START    (WINDOW_WIDTH / 2) - (BLOCK_SIZE * (GRID_WIDTH / 2))
 
 #endif
