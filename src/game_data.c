@@ -39,9 +39,6 @@ GameData *init() {
 	data->renderer = renderer;
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-	// todo: check if data->grid should me manually initialized (probably not)
-	// data->grid = calloc(GRID_WIDTH * GRID_HEIGHT, sizeof(SDL_bool));
-
 	return data;
 }
 
@@ -51,4 +48,13 @@ void close(GameData *GAME_DATA) {
 	SDL_Quit();
 
 	free(GAME_DATA);
+}
+
+SDL_bool valid_grid_position(GameData *GAME_DATA, int x, int y) {
+	return
+		x >= 0
+		&& x < GRID_WIDTH
+		&& y >= 0
+		&& y < GRID_WIDTH
+		&& !GAME_DATA->grid[x][y];
 }

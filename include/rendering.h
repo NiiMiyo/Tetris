@@ -1,6 +1,7 @@
 #ifndef NII_TETRIS_RENDERING
 #define NII_TETRIS_RENDERING
 
+#include "SDL2/SDL_render.h"
 #include "tetramino.h"
 #include "game_data.h"
 

@@ -20,4 +20,6 @@
 
 #define GRID_WALL_WIDTH 2
 
+#define DROP_TIME_MS 800
+
 #endif

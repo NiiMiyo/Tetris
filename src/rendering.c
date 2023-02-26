@@ -39,7 +39,6 @@ SDL_Point grid_to_screen(SDL_Point grid_position) {
 int draw_block(SDL_Point position, SDL_Renderer *renderer) {
 	SDL_Point screen_position = grid_to_screen(position);
 
-	// TODO: Use block image
 	const SDL_Rect fill_rect = {
 		.x = screen_position.x,
 		.y = screen_position.y,
@@ -70,6 +69,8 @@ void draw_tetramino(
 	SDL_Renderer *renderer
 ) {
 	// todo: each tetramino has different color
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
 	for (char i = 0; i < 4; i++) {
 		// todo: check errors
 		SDL_Point p = block_global_position(tetramino, i, position);
@@ -81,30 +82,28 @@ void draw_grid(GameData *GAME_DATA) {
 	for (size_t x = 0; x < GRID_WIDTH; x++) {
 		for (size_t y = 0; y < GRID_HEIGHT; y++) {
 			if (GAME_DATA->grid[x][y]) {
+				SDL_SetRenderDrawColor(GAME_DATA->renderer, 255, 255, 255, 255);
 				draw_block((SDL_Point){x,y}, GAME_DATA->renderer);
 			}
 		}
 	}
 
+	SDL_SetRenderDrawColor(GAME_DATA->renderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(GAME_DATA->renderer, &LEFT_WALL);
 	SDL_RenderDrawRect(GAME_DATA->renderer, &RIGHT_WALL);
 	SDL_RenderDrawRect(GAME_DATA->renderer, &FLOOR);
 }
 
 void clean_window(GameData *GAME_DATA) {
-	Uint8 r, g, b, a;
-	SDL_GetRenderDrawColor(GAME_DATA->renderer, &r, &g, &b, &a);
-
 	SDL_SetRenderDrawColor(GAME_DATA->renderer, 0, 0, 0, 255);
 	SDL_RenderClear(GAME_DATA->renderer);
-
-	SDL_SetRenderDrawColor(GAME_DATA->renderer, r, g, b, a);
 }
 
 void draw_current_tetramino(GameData *GAME_DATA) {
-	draw_tetramino(
-		GAME_DATA->current_tetramino,
-		GAME_DATA->tetramino_position,
-		GAME_DATA->renderer
-	);
+	if (GAME_DATA->current_tetramino)
+		draw_tetramino(
+			GAME_DATA->current_tetramino,
+			GAME_DATA->tetramino_position,
+			GAME_DATA->renderer
+		);
 }

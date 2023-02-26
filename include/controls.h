@@ -12,8 +12,16 @@
 #define KEY_DROP       SDLK_DOWN
 
 /**
- * Returns the movement of the tetramino based on input
+ * Moves the current tetramino based on user input
  */
-void move_tetramino(SDL_Event *event, GameData *GAME_DATA);
+void move_tetramino(SDL_Event *event, GameData *game_data);
+
+
+/**
+ * Moves the current tetramino down 1 block
+ * Checks collision with floor and grid
+ * If the tetramino can't move down GAME_DATA->current_tetramino is set to NULL and fills grid
+ */
+void move_down(GameData *game_data);
 
 #endif

@@ -15,12 +15,12 @@ typedef struct Tetramino {
 	/**
 	 * The tetramino this tetramino becomes when rotated
 	 */
-	const struct Tetramino *rotatesInto;
+	struct Tetramino *rotatesInto;
 } Tetramino;
 
 /**
  * The O-shaped tetramino
  */
-extern const Tetramino TETRAMINO_O;
+extern Tetramino TETRAMINO_O;
 
 #endif

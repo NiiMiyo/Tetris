@@ -15,7 +15,7 @@ typedef struct GameData {
 	SDL_Renderer *renderer;
 	SDL_bool grid[GRID_WIDTH][GRID_HEIGHT];
 
-	const Tetramino *current_tetramino;
+	Tetramino *current_tetramino;
 	SDL_Point tetramino_position;
 } GameData;
 
@@ -29,5 +29,11 @@ GameData *init();
  * Closes and frees resources.
  */
 void close(GameData *GAME_DATA);
+
+/**
+ * Returns 1 if GAME_DATA->grid[x][y] is 0 and the position is inside the grid.
+ * Otherwise returns 0
+ */
+SDL_bool valid_grid_position(GameData *GAME_DATA, int x, int y);
 
 #endif
