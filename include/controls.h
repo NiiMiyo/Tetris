@@ -10,6 +10,7 @@
 #define KEY_MOVE_LEFT  SDLK_LEFT
 #define KEY_ROTATE     SDLK_UP
 #define KEY_DROP       SDLK_DOWN
+#define KEY_DROP_ALL   SDLK_SPACE
 
 /**
  * Handles user input and moves the tetramino accordingly.

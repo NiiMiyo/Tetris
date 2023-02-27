@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 #include "SDL2/SDL.h"
 #include "constants.h"
 #include "game_data.h"
@@ -7,6 +10,8 @@
 GameData data;
 
 GameData *init() {
+	srand(time(NULL));
+
 	if (SDL_Init(SDL_INIT_EVENTS) != 0) {
 		printf("error initializing SDL: %s\n", SDL_GetError());
 		return NULL;

@@ -26,15 +26,22 @@ void handle_input(SDL_Event *event, Tetramino **tetramino, SDL_Point *position, 
 
 	position->x += movement;
 
-	if (event->key.keysym.sym == KEY_ROTATE)
-		// todo: check if rotation is valid
-		*tetramino = (*tetramino)->rotatesInto;
+	if (event->key.keysym.sym == KEY_ROTATE) {
+		Tetramino *rotated = (*tetramino)->rotatesInto;
+
+		if (tetramino_can_move_to(rotated, (SDL_Point){0,0}, *position, grid))
+			*tetramino = rotated;
+	}
 
 	if (event->key.keysym.sym == KEY_DROP
 		&& tetramino_can_move_to(*tetramino, (SDL_Point){0,1}, *position, grid)
 	) {
 		handle_drop(tetramino, position, grid);
 	}
+
+	if (event->key.keysym.sym == KEY_DROP_ALL)
+		while(*tetramino)
+			handle_drop(tetramino, position, grid);
 }
 
 void handle_drop(Tetramino **tetramino, SDL_Point *position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {

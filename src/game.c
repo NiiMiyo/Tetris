@@ -46,11 +46,14 @@ SDL_bool game_loop(GameData *GAME_DATA) {
 	if (!GAME_DATA->tetramino) {
 		// todo: check if can spawn
 
-		// todo: randomize
-		GAME_DATA->tetramino = &TETRAMINO_O;
+		Tetramino t = random_tetramino();
+		GAME_DATA->tetramino = &t;
 
-		// todo: center tetramino
-		GAME_DATA->position = (SDL_Point){ GRID_WIDTH / 2, 0 };
+		SDL_Point offset = spawn_offset(GAME_DATA->tetramino);
+		GAME_DATA->position = (SDL_Point) {
+			.x = (GRID_WIDTH / 2) + offset.x,
+			.y = offset.y
+		};
 	}
 
 	clean_window(GAME_DATA->renderer);

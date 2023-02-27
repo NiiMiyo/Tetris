@@ -19,13 +19,53 @@ typedef struct Tetramino {
 } Tetramino;
 
 /**
+ * Gets the grid position of a block on the tetramino
+ */
+SDL_Point block_position(Tetramino *tetramino, int block, SDL_Point tetramino_position);
+
+/**
+ * Returns a random tetramino from the possibles tetraminoes
+ */
+Tetramino random_tetramino();
+
+/**
+ * Returns offset to correct spawn point of the tetramino
+ */
+SDL_Point spawn_offset(Tetramino *tetramino);
+
+/**
  * The O-shaped tetramino
  */
 extern Tetramino TETRAMINO_O;
 
 /**
- * Gets the grid position of a block on the tetramino
+ * The I-shaped tetramino
  */
-SDL_Point block_position(Tetramino *tetramino, int block, SDL_Point tetramino_position);
+extern Tetramino TETRAMINO_I;
+
+/**
+ * The J-shaped tetramino
+ */
+extern Tetramino TETRAMINO_J;
+
+/**
+ * The L-shaped tetramino
+ */
+extern Tetramino TETRAMINO_L;
+
+/**
+ * The S-shaped tetramino
+ */
+extern Tetramino TETRAMINO_S;
+
+/**
+ * The T-shaped tetramino
+ */
+extern Tetramino TETRAMINO_T;
+
+/**
+ * The Z-shaped tetramino
+ */
+extern Tetramino TETRAMINO_Z;
 
 #endif
