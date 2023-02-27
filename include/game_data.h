@@ -15,8 +15,8 @@ typedef struct GameData {
 	SDL_Renderer *renderer;
 	SDL_bool grid[GRID_WIDTH][GRID_HEIGHT];
 
-	Tetramino *current_tetramino;
-	SDL_Point tetramino_position;
+	Tetramino *tetramino;
+	SDL_Point position;
 } GameData;
 
 /**
@@ -34,6 +34,24 @@ void close(GameData *GAME_DATA);
  * Returns 1 if GAME_DATA->grid[x][y] is 0 and the position is inside the grid.
  * Otherwise returns 0
  */
-SDL_bool valid_grid_position(GameData *GAME_DATA, int x, int y);
+SDL_bool valid_grid_position(
+	SDL_bool grid[GRID_WIDTH][GRID_HEIGHT],
+	int x, int y
+);
+
+/**
+ * Checks if a tetramino can move to a position on the grid relative to its current position
+ */
+SDL_bool tetramino_can_move_to(
+	Tetramino *tetramino,
+	SDL_Point relative,
+	SDL_Point current,
+	SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]
+);
+
+/**
+ * Fills the grid with the tetramino
+ */
+void fill_grid(Tetramino *tetramino, SDL_Point position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]);
 
 #endif

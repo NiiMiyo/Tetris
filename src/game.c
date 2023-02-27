@@ -16,8 +16,8 @@ SDL_bool should_quit(SDL_Event *e) {
 }
 
 time_t next_drop = 0;
-void handle_auto_drop(GameData *GAME_DATA) {
-	if(!GAME_DATA->current_tetramino)
+void handle_auto_drop(Tetramino **tetramino, SDL_Point *position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+	if(!*tetramino)
 		return;
 
 	struct timeval current_time;
@@ -28,8 +28,8 @@ void handle_auto_drop(GameData *GAME_DATA) {
 		+ (current_time.tv_usec / 1000);
 
 	if (current_ms >= next_drop) {
-		move_down(GAME_DATA);
 		next_drop = current_ms + DROP_TIME_MS;
+		handle_drop(tetramino, position, grid);
 	}
 }
 
@@ -43,20 +43,22 @@ SDL_bool game_loop(GameData *GAME_DATA) {
 			return SDL_FALSE;
 	}
 
-	if (!GAME_DATA->current_tetramino) {
+	if (!GAME_DATA->tetramino) {
+		// todo: check if can spawn
+
 		// todo: randomize
-		GAME_DATA->current_tetramino = &TETRAMINO_O;
+		GAME_DATA->tetramino = &TETRAMINO_O;
 
 		// todo: center tetramino
-		GAME_DATA->tetramino_position = (SDL_Point){ GRID_WIDTH / 2, 0 };
+		GAME_DATA->position = (SDL_Point){ GRID_WIDTH / 2, 0 };
 	}
 
-	clean_window(GAME_DATA);
-	draw_grid(GAME_DATA);
+	clean_window(GAME_DATA->renderer);
+	draw_grid(GAME_DATA->grid, GAME_DATA->renderer);
 
-	move_tetramino(&event, GAME_DATA);
-	handle_auto_drop(GAME_DATA);
-	draw_current_tetramino(GAME_DATA);
+	handle_input(&event, &GAME_DATA->tetramino, &GAME_DATA->position, GAME_DATA->grid);
+	handle_auto_drop(&GAME_DATA->tetramino, &GAME_DATA->position, GAME_DATA->grid);
+	draw_tetramino(GAME_DATA->tetramino, GAME_DATA->position, GAME_DATA->renderer);
 
 	SDL_RenderPresent(GAME_DATA->renderer);
 	return SDL_TRUE;

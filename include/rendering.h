@@ -8,12 +8,12 @@
 /**
  * Clears window
  */
-void clean_window(GameData *GAME_DATA);
+void clean_window(SDL_Renderer *renderer);
 
 /**
  * Draws the grid blocks already positioned
  */
-void draw_grid(GameData *GAME_DATA);
+void draw_grid(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], SDL_Renderer *renderer);
 
 /**
  * Draws a tetramino on the given position on the grid
@@ -23,14 +23,9 @@ void draw_grid(GameData *GAME_DATA);
  * \param renderer the renderer to be used to draw the tetramino
  */
 void draw_tetramino(
-	const Tetramino *tetramino,
+	Tetramino *tetramino,
 	SDL_Point position,
 	SDL_Renderer *renderer
 );
-
-/**
- * Draws the current tetramino at the current position
- */
-void draw_current_tetramino(GameData *GAME_DATA);
 
 #endif

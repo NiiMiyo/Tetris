@@ -23,4 +23,9 @@ typedef struct Tetramino {
  */
 extern Tetramino TETRAMINO_O;
 
+/**
+ * Gets the grid position of a block on the tetramino
+ */
+SDL_Point block_position(Tetramino *tetramino, int block, SDL_Point tetramino_position);
+
 #endif

@@ -3,16 +3,12 @@
 #include "constants.h"
 #include "game_data.h"
 
-GameData *init() {
-	GameData *data = calloc(1, sizeof(GameData));
-	if (data == NULL) {
-		printf("error allocating memory for game data\n");
-		return NULL;
-	}
 
+GameData data;
+
+GameData *init() {
 	if (SDL_Init(SDL_INIT_EVENTS) != 0) {
 		printf("error initializing SDL: %s\n", SDL_GetError());
-		free(data);
 		return NULL;
 	}
 
@@ -25,36 +21,52 @@ GameData *init() {
 
 	if (window == NULL) {
 		printf("error creating window: %s\n", SDL_GetError());
-		free(data);
 		return NULL;
 	}
-	data->window = window;
+	data.window = window;
 
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 	if (renderer == NULL) {
 		printf("error creating renderer for window: %s\n", SDL_GetError());
-		free(data);
 		return NULL;
 	}
-	data->renderer = renderer;
+	data.renderer = renderer;
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-	return data;
+	return &data;
 }
 
 void close(GameData *GAME_DATA) {
 	SDL_DestroyRenderer(GAME_DATA->renderer);
 	SDL_DestroyWindow(GAME_DATA->window);
 	SDL_Quit();
-
-	free(GAME_DATA);
 }
 
-SDL_bool valid_grid_position(GameData *GAME_DATA, int x, int y) {
+SDL_bool valid_grid_position(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], int x, int y) {
 	return
 		x >= 0
 		&& x < GRID_WIDTH
 		&& y >= 0
-		&& y < GRID_WIDTH
-		&& !GAME_DATA->grid[x][y];
+		&& y < GRID_HEIGHT
+		&& !grid[x][y];
+}
+
+SDL_bool tetramino_can_move_to(Tetramino *tetramino, SDL_Point relative, SDL_Point current, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+	for (int i = 0; i < 4; i++) {
+		SDL_Point block_on_grid = block_position(tetramino, i, current);
+		block_on_grid.x += relative.x;
+		block_on_grid.y += relative.y;
+
+		if (!valid_grid_position(grid, block_on_grid.x, block_on_grid.y))
+			return SDL_FALSE;
+	}
+
+	return SDL_TRUE;
+}
+
+void fill_grid(Tetramino *tetramino, SDL_Point position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+	for (int i = 0; i < 4; i++) {
+		SDL_Point b = block_position(tetramino, i, position);
+		grid[b.x][b.y] = SDL_TRUE;
+	}
 }

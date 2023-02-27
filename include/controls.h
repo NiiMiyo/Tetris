@@ -12,16 +12,34 @@
 #define KEY_DROP       SDLK_DOWN
 
 /**
- * Moves the current tetramino based on user input
+ * Handles user input and moves the tetramino accordingly.
+ * If the tetramino should move down but can't *tetramino is set to NULL and the grid is filled.
+ * 
+ * \param event The event with the user input
+ * \param tetramino A pointer to the pointer of the current tetramino
+ * \param position The current position of the tetramino
+ * \param grid The grid to check collisions
  */
-void move_tetramino(SDL_Event *event, GameData *game_data);
-
+void handle_input(
+	SDL_Event *event,
+	Tetramino **tetramino,
+	SDL_Point *position,
+	SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]
+);
 
 /**
- * Moves the current tetramino down 1 block
- * Checks collision with floor and grid
- * If the tetramino can't move down GAME_DATA->current_tetramino is set to NULL and fills grid
+ * Moves the current tetramino down 1 block if possible.
+ * Checks collision with floor and grid.
+ * If the tetramino can't move down *tetramino is set to NULL and fills grid.
+ * 
+ * \param tetramino A pointer to the pointer of the current tetramino
+ * \param position The current position of the tetramino
+ * \param grid The grid to check collisions
  */
-void move_down(GameData *game_data);
+void handle_drop(
+	Tetramino **tetramino,
+	SDL_Point *position,
+	SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]
+);
 
 #endif

@@ -2,78 +2,50 @@
 #include "SDL2/SDL_rect.h"
 #include "controls.h"
 
-void move_tetramino(SDL_Event *event, GameData *GAME_DATA) {
-	if (
-		   !event
+void handle_input(SDL_Event *event, Tetramino **tetramino, SDL_Point *position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+	if (!event
 		|| event->type != SDL_KEYDOWN
-		|| !GAME_DATA->current_tetramino
+		|| !*tetramino
 	) {
 		return;
 	}
 
 	int movement = 0;
 
-	for (int i; i < 4; i++) {
-		SDL_Point block = GAME_DATA->current_tetramino->blocks[i];
-		int x = GAME_DATA->tetramino_position.x + block.x;
-		int y = GAME_DATA->tetramino_position.y + block.y;
-
-		if (
-			event->key.keysym.sym == KEY_MOVE_RIGHT
-			&& valid_grid_position(GAME_DATA, x + 1, y)
-		) {
-			movement++;
-		}
-
-		if (
-			event->key.keysym.sym == KEY_MOVE_LEFT
-			&& valid_grid_position(GAME_DATA, x - 1, y)
-		) {
-			movement--;
-		}
+	if (event->key.keysym.sym == KEY_MOVE_RIGHT
+		&& tetramino_can_move_to(*tetramino, (SDL_Point){1,0}, *position, grid)
+	) {
+		movement++;
 	}
 
-	GAME_DATA->tetramino_position.x += movement / 4;
+	if (event->key.keysym.sym == KEY_MOVE_LEFT
+		&& tetramino_can_move_to(*tetramino, (SDL_Point){-1,0}, *position, grid)
+	) {
+		movement--;
+	}
+
+	position->x += movement;
 
 	if (event->key.keysym.sym == KEY_ROTATE)
 		// todo: check if rotation is valid
-		GAME_DATA->current_tetramino = GAME_DATA->current_tetramino->rotatesInto;
+		*tetramino = (*tetramino)->rotatesInto;
 
-	if (event->key.keysym.sym == KEY_DROP)
-		move_down(GAME_DATA);
+	if (event->key.keysym.sym == KEY_DROP
+		&& tetramino_can_move_to(*tetramino, (SDL_Point){0,1}, *position, grid)
+	) {
+		handle_drop(tetramino, position, grid);
+	}
 }
 
-void move_down(GameData *GAME_DATA) {
-	if (!GAME_DATA->current_tetramino)
+void handle_drop(Tetramino **tetramino, SDL_Point *position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+	if (!*tetramino)
 		return;
 
-	SDL_bool fix_tetramino = SDL_FALSE;
+	if (tetramino_can_move_to(*tetramino, (SDL_Point){0,1}, *position, grid))
+		position->y++;
 
-	for (size_t i = 0; i < 4; i++) {
-		SDL_Point block = GAME_DATA->current_tetramino->blocks[i];
-		SDL_Point block_next = {
-			.x = GAME_DATA->tetramino_position.x + block.x,
-			.y = GAME_DATA->tetramino_position.y + block.y + 1
-		};
-
-		if (!valid_grid_position(GAME_DATA, block_next.x, block_next.y)) {
-			fix_tetramino = SDL_TRUE;
-			break;
-		}
+	else {
+		fill_grid(*tetramino, *position, grid);
+		*tetramino = NULL;
 	}
-
-	if (fix_tetramino) {
-		for (size_t i = 0; i < 4; i++) {
-			SDL_Point block = GAME_DATA->current_tetramino->blocks[i];
-			int x = GAME_DATA->tetramino_position.x + block.x;
-			int y = GAME_DATA->tetramino_position.y + block.y;
-
-			GAME_DATA->grid[x][y] = SDL_TRUE;
-		}
-
-		GAME_DATA->current_tetramino = NULL;
-	}
-
-	else
-		GAME_DATA->tetramino_position.y++;
 }

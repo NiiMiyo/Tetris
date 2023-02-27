@@ -6,7 +6,7 @@ OBJECT_FILES  = $(patsubst %,obj/%.o,${C_FILES})
 
 NEW_LINE      = @echo ""
 
-.PHONY: build run clean
+.PHONY: build run clean folder.%
 
 build: clean ${OBJECT_FILES}
 	${NEW_LINE}
