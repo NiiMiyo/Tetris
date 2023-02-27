@@ -70,3 +70,32 @@ void fill_grid(Tetramino *tetramino, SDL_Point position, SDL_bool grid[GRID_WIDT
 		grid[b.x][b.y] = SDL_TRUE;
 	}
 }
+
+SDL_bool full_line(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], int line) {
+		int filled = 0;
+
+		for (int column = 0; column < GRID_WIDTH; column++) {
+			filled += grid[column][line];
+		}
+
+		return filled == GRID_WIDTH;
+}
+
+void clear_line(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], int line) {
+	for (int y = line; y > 0; y--) {
+		for (int x = 0; x < GRID_WIDTH; x++) {
+			grid[x][y] = grid[x][y-1];
+		}
+	}
+
+	for (int x = 0; x < GRID_WIDTH; x++) {
+		grid[x][0] = SDL_FALSE;
+	}
+}
+
+void clear_full_lines(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+	for (int line = 0; line < GRID_HEIGHT; line++) {
+		if (full_line(grid, line))
+			clear_line(grid, line);
+	}
+}

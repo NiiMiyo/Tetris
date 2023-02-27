@@ -54,4 +54,9 @@ SDL_bool tetramino_can_move_to(
  */
 void fill_grid(Tetramino *tetramino, SDL_Point position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]);
 
+/**
+ * Clear lines that are full and moves upper lines down by 1
+ */
+void clear_full_lines(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]);
+
 #endif

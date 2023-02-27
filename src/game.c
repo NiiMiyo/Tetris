@@ -60,6 +60,8 @@ SDL_bool game_loop(GameData *GAME_DATA) {
 	handle_auto_drop(&GAME_DATA->tetramino, &GAME_DATA->position, GAME_DATA->grid);
 	draw_tetramino(GAME_DATA->tetramino, GAME_DATA->position, GAME_DATA->renderer);
 
+	clear_full_lines(GAME_DATA->grid);
+
 	SDL_RenderPresent(GAME_DATA->renderer);
 	return SDL_TRUE;
 }
