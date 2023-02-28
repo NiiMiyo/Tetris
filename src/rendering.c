@@ -36,8 +36,9 @@ SDL_Point grid_to_screen(SDL_Point grid_position) {
 /**
  * Draws a single block at a position on the grid
  */
-int draw_block(SDL_Point position, SDL_Renderer *renderer) {
+int draw_block(SDL_Point position, SDL_Renderer *renderer, SDL_Color color) {
 	SDL_Point screen_position = grid_to_screen(position);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
 	const SDL_Rect fill_rect = {
 		.x = screen_position.x,
@@ -56,12 +57,10 @@ void draw_tetramino(
 ) {
 	if (!tetramino)
 		return;
-	// todo: each tetramino has different color
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
 	for (char i = 0; i < 4; i++) {
 		// todo: check errors
-		draw_block(block_position(tetramino, i, position), renderer);
+		draw_block(block_position(tetramino, i, position), renderer, tetramino->color);
 	}
 }
 
@@ -69,8 +68,8 @@ void draw_grid(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], SDL_Renderer *renderer) {
 	for (size_t x = 0; x < GRID_WIDTH; x++) {
 		for (size_t y = 0; y < GRID_HEIGHT; y++) {
 			if (grid[x][y]) {
-				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-				draw_block((SDL_Point){x,y}, renderer);
+				// todo: grid color
+				draw_block((SDL_Point){x,y}, renderer, (SDL_Color){255, 255, 255, 255});
 			}
 		}
 	}

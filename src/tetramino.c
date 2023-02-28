@@ -53,16 +53,21 @@ SDL_Point spawn_offset(Tetramino *tetramino) {
 
 Tetramino TETRAMINO_O = {
 	.blocks = { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } },
+	.color = TETRAMINO_COLOR_O,
 	.rotatesInto = &TETRAMINO_O
 };
 
 Tetramino TETRAMINO_I = {
+	.color = TETRAMINO_COLOR_I,
 	.blocks = { {0, 1}, {1, 1}, {2, 1}, {3, 1} },
 	.rotatesInto = &(Tetramino) {
+		.color = TETRAMINO_COLOR_I,
 		.blocks = { {2, 0}, {2, 1}, {2, 2}, {2, 3} },
 		.rotatesInto = &(Tetramino) {
+			.color = TETRAMINO_COLOR_I,
 			.blocks = { {0, 2}, {1, 2}, {2, 2}, {3, 2} },
 			.rotatesInto = &(Tetramino) {
+				.color = TETRAMINO_COLOR_I,
 				.blocks = { {1, 0}, {1, 1}, {1, 2}, {1, 3 } },
 				.rotatesInto = &TETRAMINO_I
 			},
@@ -71,12 +76,16 @@ Tetramino TETRAMINO_I = {
 };
 
 Tetramino TETRAMINO_J = {
+	.color = TETRAMINO_COLOR_J,
 	.blocks = { {0, 0}, {0, 1}, {1, 1}, {2, 1} },
 	.rotatesInto = &(Tetramino) {
+		.color = TETRAMINO_COLOR_J,
 		.blocks = { {1, 0}, {2, 0}, {1, 1}, {1, 2} },
 		.rotatesInto= &(Tetramino) {
+			.color = TETRAMINO_COLOR_J,
 			.blocks = { {0, 1}, {1, 1}, {2, 1}, {2, 2} },
 			.rotatesInto = &(Tetramino) {
+				.color = TETRAMINO_COLOR_J,
 				.blocks = { {1, 0}, {1, 1}, {1, 2}, {0, 2} },
 				.rotatesInto = &TETRAMINO_J
 			}
@@ -85,12 +94,16 @@ Tetramino TETRAMINO_J = {
 };
 
 Tetramino TETRAMINO_L = {
+	.color = TETRAMINO_COLOR_L,
 	.blocks = { {0, 1}, {1, 1}, {2, 1}, {2, 0} },
 	.rotatesInto = &(Tetramino){
+		.color = TETRAMINO_COLOR_L,
 		.blocks = { {1, 0}, {1, 1}, {1, 2}, {2, 2} },
 		.rotatesInto = &(Tetramino){
+			.color = TETRAMINO_COLOR_L,
 			.blocks = { {0, 1}, {1, 1}, {2, 1}, {0, 2} },
 			.rotatesInto = &(Tetramino){
+				.color = TETRAMINO_COLOR_L,
 				.blocks = { {0, 0}, {1, 0}, {1, 1}, {1, 2} },
 				.rotatesInto = &TETRAMINO_L
 			}
@@ -99,12 +112,16 @@ Tetramino TETRAMINO_L = {
 };
 
 Tetramino TETRAMINO_S = {
+	.color = TETRAMINO_COLOR_S,
 	.blocks = { {1, 0}, {2, 0}, {0, 1}, {1, 1} },
 	.rotatesInto = &(Tetramino) {
+		.color = TETRAMINO_COLOR_S,
 		.blocks = { {1, 0}, {1, 1}, {2, 1}, {2, 2} },
 		.rotatesInto = &(Tetramino) {
+			.color = TETRAMINO_COLOR_S,
 			.blocks = { {1, 1}, {2, 1}, {0, 2}, {1, 2} },
 			.rotatesInto = &(Tetramino) {
+				.color = TETRAMINO_COLOR_S,
 				.blocks = { {0, 0}, {0, 1}, {1, 1}, {1, 2} },
 				.rotatesInto = &TETRAMINO_S
 			}
@@ -113,12 +130,16 @@ Tetramino TETRAMINO_S = {
 };
 
 Tetramino TETRAMINO_T = {
+	.color = TETRAMINO_COLOR_T,
 	.blocks = { {1, 0}, { 0, 1 }, { 1, 1 }, { 2, 1 } },
 	.rotatesInto = &(Tetramino) {
+		.color = TETRAMINO_COLOR_T,
 		.blocks = { { 1, 0 }, { 1, 1 }, { 2, 1 }, { 1, 2 } },
 		.rotatesInto = &(Tetramino) {
+			.color = TETRAMINO_COLOR_T,
 			.blocks = { { 0, 1 }, { 1, 1 }, { 2, 1 }, { 1, 2 } },
 			.rotatesInto = &(Tetramino) {
+				.color = TETRAMINO_COLOR_T,
 				.blocks = { { 1, 0 }, { 0, 1 }, { 1, 1 }, { 1, 2 } },
 				.rotatesInto = &TETRAMINO_T
 			}
@@ -127,12 +148,16 @@ Tetramino TETRAMINO_T = {
 };
 
 Tetramino TETRAMINO_Z = {
+	.color = TETRAMINO_COLOR_Z,
 	.blocks = { {1, 0}, {0, 0}, {2, 1}, {1, 1} },
 	.rotatesInto = &(Tetramino) {
+		.color = TETRAMINO_COLOR_Z,
 		.blocks = { {2, 0}, {1, 1}, {2, 1}, {1, 2} },
 		.rotatesInto = &(Tetramino) {
+			.color = TETRAMINO_COLOR_Z,
 			.blocks = { {1, 1}, {0, 1}, {2, 2}, {1, 2} },
 			.rotatesInto = &(Tetramino) {
+				.color = TETRAMINO_COLOR_Z,
 				.blocks = { {1, 0}, {0, 1}, {1, 1}, {0, 2} },
 				.rotatesInto = &TETRAMINO_Z
 			}
