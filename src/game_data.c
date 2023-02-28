@@ -38,6 +38,12 @@ GameData *init() {
 	data.renderer = renderer;
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
+	for (int x = 0; x < GRID_WIDTH; x++) {
+		for (int y = 0; y < GRID_HEIGHT; y++) {
+			data.grid[x][y] = (SDL_Color)TETRAMINO_COLOR_BLANK;
+		}
+	}
+
 	return &data;
 }
 
@@ -47,16 +53,23 @@ void close(GameData *GAME_DATA) {
 	SDL_Quit();
 }
 
-SDL_bool valid_grid_position(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], int x, int y) {
+SDL_bool valid_grid_position(SDL_Color grid[GRID_WIDTH][GRID_HEIGHT], int x, int y) {
+	SDL_Color c = grid[x][y];
+	Uint8 r = c.r,
+	      g = c.g,
+	      b = c.b;
+
 	return
 		x >= 0
 		&& x < GRID_WIDTH
 		&& y >= 0
 		&& y < GRID_HEIGHT
-		&& !grid[x][y];
+		&& r == 0
+		&& g == 0
+		&& b == 0;
 }
 
-SDL_bool tetramino_can_move_to(Tetramino *tetramino, SDL_Point relative, SDL_Point current, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+SDL_bool tetramino_can_move_to(Tetramino *tetramino, SDL_Point relative, SDL_Point current, SDL_Color grid[GRID_WIDTH][GRID_HEIGHT]) {
 	for (int i = 0; i < 4; i++) {
 		SDL_Point block_on_grid = block_position(tetramino, i, current);
 		block_on_grid.x += relative.x;
@@ -69,24 +82,24 @@ SDL_bool tetramino_can_move_to(Tetramino *tetramino, SDL_Point relative, SDL_Poi
 	return SDL_TRUE;
 }
 
-void fill_grid(Tetramino *tetramino, SDL_Point position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+void fill_grid(Tetramino *tetramino, SDL_Point position, SDL_Color grid[GRID_WIDTH][GRID_HEIGHT]) {
 	for (int i = 0; i < 4; i++) {
 		SDL_Point b = block_position(tetramino, i, position);
-		grid[b.x][b.y] = SDL_TRUE;
+		grid[b.x][b.y] = tetramino->color;
 	}
 }
 
-SDL_bool full_line(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], int line) {
+SDL_bool full_line(SDL_Color grid[GRID_WIDTH][GRID_HEIGHT], int line) {
 		int filled = 0;
 
 		for (int column = 0; column < GRID_WIDTH; column++) {
-			filled += grid[column][line];
+			filled += !valid_grid_position(grid, column, line);
 		}
 
 		return filled == GRID_WIDTH;
 }
 
-void clear_line(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], int line) {
+void clear_line(SDL_Color grid[GRID_WIDTH][GRID_HEIGHT], int line) {
 	for (int y = line; y > 0; y--) {
 		for (int x = 0; x < GRID_WIDTH; x++) {
 			grid[x][y] = grid[x][y-1];
@@ -94,11 +107,11 @@ void clear_line(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], int line) {
 	}
 
 	for (int x = 0; x < GRID_WIDTH; x++) {
-		grid[x][0] = SDL_FALSE;
+		grid[x][0] = (SDL_Color)TETRAMINO_COLOR_BLANK;
 	}
 }
 
-void clear_full_lines(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+void clear_full_lines(SDL_Color grid[GRID_WIDTH][GRID_HEIGHT]) {
 	for (int line = 0; line < GRID_HEIGHT; line++) {
 		if (full_line(grid, line))
 			clear_line(grid, line);

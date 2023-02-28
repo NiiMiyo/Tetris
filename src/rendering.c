@@ -64,12 +64,11 @@ void draw_tetramino(
 	}
 }
 
-void draw_grid(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], SDL_Renderer *renderer) {
+void draw_grid(SDL_Color grid[GRID_WIDTH][GRID_HEIGHT], SDL_Renderer *renderer) {
 	for (size_t x = 0; x < GRID_WIDTH; x++) {
 		for (size_t y = 0; y < GRID_HEIGHT; y++) {
-			if (grid[x][y]) {
-				// todo: grid color
-				draw_block((SDL_Point){x,y}, renderer, (SDL_Color){255, 255, 255, 255});
+			if (!valid_grid_position(grid, x, y)) {
+				draw_block((SDL_Point){x,y}, renderer, grid[x][y]);
 			}
 		}
 	}

@@ -25,7 +25,7 @@ void handle_input(
 	SDL_Event *event,
 	Tetramino **tetramino,
 	SDL_Point *position,
-	SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]
+	SDL_Color grid[GRID_WIDTH][GRID_HEIGHT]
 );
 
 /**
@@ -40,7 +40,7 @@ void handle_input(
 void handle_drop(
 	Tetramino **tetramino,
 	SDL_Point *position,
-	SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]
+	SDL_Color grid[GRID_WIDTH][GRID_HEIGHT]
 );
 
 #endif

@@ -16,7 +16,7 @@ SDL_bool should_quit(SDL_Event *e) {
 }
 
 time_t next_drop = 0;
-void handle_auto_drop(Tetramino **tetramino, SDL_Point *position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+void handle_auto_drop(Tetramino **tetramino, SDL_Point *position, SDL_Color grid[GRID_WIDTH][GRID_HEIGHT]) {
 	if(!*tetramino)
 		return;
 

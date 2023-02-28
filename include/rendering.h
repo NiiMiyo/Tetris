@@ -13,7 +13,7 @@ void clean_window(SDL_Renderer *renderer);
 /**
  * Draws the grid blocks already positioned
  */
-void draw_grid(SDL_bool grid[GRID_WIDTH][GRID_HEIGHT], SDL_Renderer *renderer);
+void draw_grid(SDL_Color grid[GRID_WIDTH][GRID_HEIGHT], SDL_Renderer *renderer);
 
 /**
  * Draws a tetramino on the given position on the grid

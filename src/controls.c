@@ -2,7 +2,7 @@
 #include "SDL2/SDL_rect.h"
 #include "controls.h"
 
-void handle_input(SDL_Event *event, Tetramino **tetramino, SDL_Point *position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+void handle_input(SDL_Event *event, Tetramino **tetramino, SDL_Point *position, SDL_Color grid[GRID_WIDTH][GRID_HEIGHT]) {
 	if (!event
 		|| event->type != SDL_KEYDOWN
 		|| !*tetramino
@@ -44,7 +44,7 @@ void handle_input(SDL_Event *event, Tetramino **tetramino, SDL_Point *position, 
 			handle_drop(tetramino, position, grid);
 }
 
-void handle_drop(Tetramino **tetramino, SDL_Point *position, SDL_bool grid[GRID_WIDTH][GRID_HEIGHT]) {
+void handle_drop(Tetramino **tetramino, SDL_Point *position, SDL_Color grid[GRID_WIDTH][GRID_HEIGHT]) {
 	if (!*tetramino)
 		return;
 
