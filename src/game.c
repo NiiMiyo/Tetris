@@ -38,14 +38,10 @@ SDL_bool game_loop(GameData *GAME_DATA) {
 		return SDL_FALSE;
 
 	SDL_Event event;
-	if (SDL_PollEvent(&event)) {
-		if (should_quit(&event))
+	if (SDL_PollEvent(&event) && should_quit(&event))
 			return SDL_FALSE;
-	}
 
 	if (!GAME_DATA->tetramino) {
-		// todo: check if can spawn
-
 		Tetramino t = random_tetramino();
 		GAME_DATA->tetramino = &t;
 
@@ -54,6 +50,10 @@ SDL_bool game_loop(GameData *GAME_DATA) {
 			.x = (GRID_WIDTH / 2) + offset.x,
 			.y = offset.y
 		};
+
+		SDL_bool canSpawn = tetramino_can_move_to(GAME_DATA->tetramino, (SDL_Point){0, 0}, GAME_DATA->position, GAME_DATA->grid);
+		if (!canSpawn)
+			return SDL_FALSE;
 	}
 
 	clean_window(GAME_DATA->renderer);
